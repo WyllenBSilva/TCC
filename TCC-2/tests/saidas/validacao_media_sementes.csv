@@ -1,0 +1,17 @@
+dobra,mae_individual_medio,mae_previsao_media,configuracao
+1,19150.50,19148.59,random_forest_nivel
+2,17984.25,17984.25,random_forest_nivel
+3,7434.83,7434.83,random_forest_nivel
+4,8071.99,8060.15,random_forest_nivel
+1,9191.53,9190.97,random_forest_diferenca
+2,7548.64,7548.64,random_forest_diferenca
+3,3723.85,3723.85,random_forest_diferenca
+4,5004.50,5001.44,random_forest_diferenca
+1,18022.40,17958.04,mlp_nivel
+2,14041.31,11598.66,mlp_nivel
+3,11426.88,10865.16,mlp_nivel
+4,6623.36,5354.26,mlp_nivel
+1,9196.11,9151.55,mlp_diferenca
+2,7518.10,7518.10,mlp_diferenca
+3,3750.70,3750.70,mlp_diferenca
+4,5051.18,5026.26,mlp_diferenca

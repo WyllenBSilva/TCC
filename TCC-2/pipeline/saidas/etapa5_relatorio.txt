@@ -1,0 +1,64 @@
+
+==========================================================================
+ETAPA 5 — Modelagem e avaliação
+==========================================================================
+Entrada: pipeline/saidas/etapa4_atributos.parquet
+Validação: TimeSeriesSplit, 4 dobras de 12 meses, sementes [0, 1, 2]; modelo final com 10 sementes
+  random_forest  nivel      base            validação    13,146  teste    14,534  (33 s)
+  random_forest  nivel      com_proporcoes  validação    13,335  teste    15,450  (25 s)
+  random_forest  diferenca  base            validação     6,365  teste     5,671  (28 s)
+  random_forest  diferenca  com_proporcoes  validação     7,584  teste     6,203  (24 s)
+  mlp            nivel      base            validação    11,665  teste     6,546  (22 s)
+  mlp            nivel      com_proporcoes  validação    12,202  teste    11,500  (21 s)
+  mlp            diferenca  base            validação     6,387  teste     5,712  (16 s)
+  mlp            diferenca  com_proporcoes  validação     8,628  teste     5,285  (36 s)
+
+==========================================================================
+Escolha do conjunto de atributos (menor MAE de validação)
+==========================================================================
+  random_forest  nivel      base: 13,146  |  com_proporcoes: 13,335  ->  base
+  random_forest  diferenca  base: 6,365  |  com_proporcoes: 7,584  ->  base
+  mlp            nivel      base: 11,665  |  com_proporcoes: 12,202  ->  base
+  mlp            diferenca  base: 6,387  |  com_proporcoes: 8,628  ->  base
+
+==========================================================================
+Hiperparâmetros escolhidos
+==========================================================================
+  random_forest  nivel      {'n_estimators': 300, 'max_depth': 8, 'min_samples_split': 2}
+  random_forest  diferenca  {'n_estimators': 300, 'max_depth': None, 'min_samples_split': 2}
+  mlp            nivel      {'hidden_layer_sizes': (16,), 'activation': 'relu', 'alpha': 0.1, 'learning_rate_init': 0.01}
+  mlp            diferenca  {'hidden_layer_sizes': (16, 8), 'activation': 'relu', 'alpha': 0.001, 'learning_rate_init': 0.01}
+
+==========================================================================
+MAE de validação por dobra (configurações selecionadas)
+==========================================================================
+                               dobra 1   dobra 2   dobra 3   dobra 4
+  (meses de validação)       19/09-20/08 20/09-21/08 21/09-22/08 22/09-23/08
+  random_forest nivel           19,144    17,934     7,399     8,106
+  random_forest diferenca        9,170     7,566     3,698     5,025
+  mlp nivel                     16,661    13,451    10,304     6,246
+  mlp diferenca                  9,227     7,495     3,774     5,051
+
+==========================================================================
+Resultados (média entre sementes; baselines são determinísticas)
+==========================================================================
+                                     MAE trein.  MAE teste    ± dp  RMSE teste  R² teste  viés teste
+  ingenua_mes_anterior                    8,626      8,464              10,752     0.535        -886
+  ingenua_mesmo_mes_ano_anterior         11,082     10,884              12,583     0.363     -10,884
+  random_forest nivel                     2,581     14,534      93      17,636    -0.252     -12,470
+  random_forest diferenca                 5,713      5,671      28       6,816     0.813        -414
+  mlp nivel                               3,064      6,546   1,482       8,457     0.700       2,675
+  mlp diferenca                           5,734      5,712      70       6,868     0.810        -425
+
+==========================================================================
+CONFERÊNCIAS
+==========================================================================
+  meses de treino = 92                                    OK
+  meses de teste = 24                                     OK
+  treino termina antes do teste                           OK
+  validação usa só meses de treino                        OK
+  sem valores nulos nos atributos                         OK
+  baseline mês anterior = média |y - lag_1| no teste      OK
+  reajuste com a mesma semente reproduz a previsão        OK
+
+Gravados: etapa5_resultados.csv, etapa5_validacao.csv, etapa5_previsoes.parquet e etapa5_modelos/

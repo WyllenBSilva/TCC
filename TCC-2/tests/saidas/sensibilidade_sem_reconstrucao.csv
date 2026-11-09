@@ -1,0 +1,13 @@
+variante,configuracao,mae_teste,rmse_teste,r2_teste,vies_teste,mae_teste_dp
+com reconstrução,ingenua_mes_anterior,8463.8333,10752.3563,0.5347,-886.4167,
+com reconstrução,ingenua_mesmo_mes_ano_anterior,10884.5000,12582.9298,0.3628,-10884.5000,
+com reconstrução,random_forest_nivel,14534.0654,17635.7269,-0.2517,-12470.4897,92.7649
+com reconstrução,random_forest_diferenca,5670.8806,6816.0349,0.8130,-413.9571,27.5872
+com reconstrução,mlp_nivel,6545.8550,8457.2354,0.7001,2674.9761,1482.0344
+com reconstrução,mlp_diferenca,5711.9862,6868.4709,0.8101,-424.9004,70.3190
+sem reconstrução,ingenua_mes_anterior,8530.5000,10787.4860,0.5318,-886.4167,
+sem reconstrução,ingenua_mesmo_mes_ano_anterior,10910.9167,12597.5269,0.3616,-10910.9167,
+sem reconstrução,random_forest_nivel,14612.3559,17741.5722,-0.2663,-12550.2056,88.3439
+sem reconstrução,random_forest_diferenca,5708.3502,6815.3227,0.8131,-413.6377,27.5376
+sem reconstrução,mlp_nivel,6786.1352,8694.5998,0.6769,2914.2569,1748.7728
+sem reconstrução,mlp_diferenca,5751.8363,6869.2864,0.8102,-430.0703,64.7509

@@ -1,0 +1,77 @@
+
+==========================================================================
+ETAPA 4 — Atributos e divisão em treinamento e teste
+==========================================================================
+Entrada: pipeline/saidas/etapa3_serie_mensal.parquet
+
+==========================================================================
+Conjuntos
+==========================================================================
+treino : 2016-01 a 2023-08, 92 meses | y de 137,807 a 226,028 (média 192,874)
+teste  : 2023-09 a 2025-08, 24 meses | y de 198,740 a 252,773 (média 225,878)
+
+Meses de teste com y acima do maior valor do treino (226,028): 14 de 24
+Meses de teste com y_diff fora da faixa do treino (-34,785 a 39,136): 0 de 24
+
+==========================================================================
+Atributos
+==========================================================================
+Calendário : dias_no_mes, dez_jan, outono, inverno, primavera
+Defasagens : lag_1, lag_3, lag_12
+Proporções : prop_60mais_lag1, prop_masculino_lag1 (só entram na comparação com o calendário)
+
+Contagem de meses por atributo binário no treino:
+  dez_jan   : 15
+  outono    : 24
+  inverno   : 24
+  primavera : 21
+
+Correlação de cada atributo com y no treino:
+  dias_no_mes         : +0.279
+  dez_jan             : -0.273
+  outono              : +0.194
+  inverno             : +0.260
+  primavera           : -0.048
+  lag_1               : +0.745
+  lag_3               : +0.445
+  lag_12              : +0.249
+  prop_60mais_lag1    : +0.117
+  prop_masculino_lag1 : -0.298
+
+Resumo das proporções no treino:
+       prop_60mais_lag1  prop_masculino_lag1
+count           92.0000              92.0000
+mean             0.3707               0.5122
+std              0.0193               0.0079
+min              0.3307               0.4930
+25%              0.3569               0.5077
+50%              0.3696               0.5142
+75%              0.3856               0.5179
+max              0.4111               0.5265
+
+Índice sazonal da ocupação média diária (01/2015 a 08/2023, média = 100):
+   1:  95.1   2: 100.2   3: 102.0   4: 100.0   5: 102.3   6: 103.5   7: 103.6   8: 100.7   9: 100.9  10: 100.0  11: 100.1  12:  91.7
+  verão (dez a fev): de 91.7 a 100.2, amplitude 8.5
+  outono   : média 101.4
+  inverno  : média 102.6
+  primavera: média 100.3
+
+==========================================================================
+CONFERÊNCIA COM OS VALORES DE REFERÊNCIA
+==========================================================================
+item                                        esperado      obtido  situação
+meses lidos                                      128         128  OK
+meses com lag_12                                 116         116  OK
+meses de treino                                   92          92  OK
+meses de teste                                    24          24  OK
+primeiro mês de treino                       2016-01     2016-01  OK
+último mês de treino                         2023-08     2023-08  OK
+primeiro mês de teste                        2023-09     2023-09  OK
+último mês de teste                          2025-08     2025-08  OK
+valores nulos                                      0           0  OK
+meses não consecutivos                             0           0  OK
+defasagens divergentes                             0           0  OK
+y - lag_1 - y_diff diferente de zero               0           0  OK
+meses sem exatamente uma estação                   0           0  OK
+
+Atributos gravados: pipeline/saidas/etapa4_atributos.parquet (116 meses, 14 colunas)

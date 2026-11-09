@@ -1,0 +1,81 @@
+
+==========================================================================
+ETAPA 6 — Importância das variáveis (SHAP)
+==========================================================================
+shap 0.54.1; referência: meses de treino; média de 10 sementes
+  random_forest  nivel      8 atributos  (20 s)
+  random_forest  diferenca  5 atributos  (5 s)
+  mlp            nivel      8 atributos  (18 s)
+  mlp            diferenca  5 atributos  (3 s)
+
+==========================================================================
+random_forest nivel — valor-base 192,953 pacientes-dia
+==========================================================================
+  atributo       |SHAP| teste    ± dp  |SHAP| treino pos. teste pos. treino  SHAP se =1   corr
+  lag_1                14,934     271          8,053          1           1              +0.81
+  lag_12                4,706     254          3,549          2           2              +0.65
+  lag_3                 1,340      63            949          3           5              +0.84
+  dias_no_mes           1,164      66          1,300          4           4              +0.84
+  outono                  778      65          1,349          5           3       1,667       
+  inverno                 100      20             85          6           6        -174       
+  primavera                88      30             55          7           7        -197       
+  dez_jan                  12       7             47          8           8           1       
+
+==========================================================================
+random_forest diferenca — valor-base 504 pacientes-dia (variação mensal prevista)
+==========================================================================
+  atributo       |SHAP| teste    ± dp  |SHAP| treino pos. teste pos. treino  SHAP se =1   corr
+  dias_no_mes           5,901      49          5,983          1           1              +0.79
+  outono                3,024      61          3,082          2           2       5,908       
+  primavera               497      22            481          3           3       1,053       
+  dez_jan                 365      28            361          4           4      -1,106       
+  inverno                  98      10            101          5           5         -18       
+
+==========================================================================
+mlp nivel — valor-base 192,865 pacientes-dia
+==========================================================================
+  atributo       |SHAP| teste    ± dp  |SHAP| treino pos. teste pos. treino  SHAP se =1   corr
+  lag_1                17,398   3,646          7,926          1           1              +0.97
+  lag_3                11,115   2,890          2,193          2           4              +0.98
+  lag_12                6,662   2,741          1,581          3           8              +0.86
+  dias_no_mes           5,708     712          6,617          4           2              +0.95
+  inverno               2,334   1,336          1,990          5           6      -4,242       
+  primavera             1,934   1,220          2,158          6           5      -4,033       
+  outono                1,931   1,323          1,737          7           7       3,943       
+  dez_jan               1,715   1,182          2,361          8           3      -4,656       
+
+==========================================================================
+mlp diferenca — valor-base 487 pacientes-dia (variação mensal prevista)
+==========================================================================
+  atributo       |SHAP| teste    ± dp  |SHAP| treino pos. teste pos. treino  SHAP se =1   corr
+  dias_no_mes           6,316     383          6,434          1           1              +0.90
+  inverno               1,888   1,284          1,920          2           2      -3,680       
+  dez_jan               1,820   1,002          1,805          3           3      -5,535       
+  outono                1,390     414          1,415          4           4       1,221       
+  primavera             1,332     919          1,291          5           5      -2,828       
+
+  |SHAP|: média do valor absoluto nos meses do conjunto, em pacientes-dia
+  SHAP se =1: média do SHAP nos meses de teste em que a binária vale 1
+  corr: correlação, no teste, entre o valor do atributo e o seu SHAP
+
+==========================================================================
+CONFERÊNCIAS
+==========================================================================
+                                                                     maior dif.
+  random_forest nivel: base + soma dos SHAP = previsão                  7.4e-03  OK
+  random_forest nivel: base = previsão média no treino                  8.7e-11  OK
+  random_forest diferenca: base + soma dos SHAP = previsão              5.8e-05  OK
+  random_forest diferenca: base = previsão média no treino              3.5e-12  OK
+  mlp nivel: base + soma dos SHAP = previsão                            7.9e-10  OK
+  mlp nivel: base = previsão média no treino                            8.7e-11  OK
+  mlp diferenca: base + soma dos SHAP = previsão                        4.2e-11  OK
+  mlp diferenca: base = previsão média no treino                        4.5e-13  OK
+  Random Forest: TreeExplainer = Exact                                  3.1e-03  OK
+  random_forest nivel: SHAP médio reproduz a previsão da Etapa 5        6.8e-03  OK
+  random_forest diferenca: SHAP médio reproduz a previsão da Etapa 5    2.5e-05  OK
+  mlp nivel: SHAP médio reproduz a previsão da Etapa 5                  2.3e-10  OK
+  mlp diferenca: SHAP médio reproduz a previsão da Etapa 5              2.9e-11  OK
+
+  tolerância: 0.01 pacientes-dia
+
+Gravados: etapa6_shap_valores.parquet e etapa6_shap_importancia.csv

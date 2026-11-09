@@ -1,0 +1,7 @@
+configuracao,mae_previsao_media,mae_pct_media_observada,mae_leitos_por_dia,maior_erro,mes_maior_erro,maior_previsao,meses_previstos_acima_teto_treino,meses_melhor_que_ingenua_mes_anterior,meses_subestimados
+ingenua_mes_anterior,8463.83,3.75,277.88,27118.00,2025-03,252773.00,13,0,11
+ingenua_mesmo_mes_ano_anterior,10884.50,4.82,357.36,26271.00,2024-10,240143.00,6,10,24
+random_forest_nivel,14534.07,6.43,477.18,35733.24,2025-05,218533.32,0,10,18
+random_forest_diferenca,5670.88,2.51,186.18,12971.73,2024-04,251853.86,12,16,14
+mlp_nivel,4921.80,2.18,161.59,17633.51,2025-08,260891.51,14,17,10
+mlp_diferenca,5695.92,2.52,187.01,13278.56,2024-04,251700.66,12,16,13

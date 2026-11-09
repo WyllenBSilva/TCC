@@ -1,0 +1,131 @@
+
+==========================================================================
+ETAPA 0 — Colunas
+==========================================================================
+Arquivo      : data_all_concatenado/dados_concatenados.parquet
+Colunas      : N_AIH, DT_INTER, ANO_CMPT, MES_CMPT, DT_SAIDA, DIAS_PERM, NASC, IDADE, COD_IDADE, SEXO, ESPEC, DIAG_PRINC, IDENT, MUNIC_RES, MUNIC_MOV, MORTE, CAR_INT, RACA_COR
+Obrigatórias : todas presentes
+
+==========================================================================
+ETAPA 1 — Tipagem
+==========================================================================
+Registros lidos: 5,758,981
+
+Tipo na base limpa e nulos após a conversão (texto vazio, número ilegível ou data inválida):
+  N_AIH           int64                                     0
+  IDENT           int8                                      0
+  ANO_CMPT        int16                                     0
+  MES_CMPT        int8                                      0
+  DT_INTER        timestamp[ms]                             0
+  DT_SAIDA        timestamp[ms]                             0
+  DIAS_PERM       int32                                     0
+  NASC            timestamp[ms]                             0
+  IDADE           int16                                     0
+  COD_IDADE       int8                                      0
+  IDADE_ANOS      int16                                     6
+  IDADE_INVALIDA  bool                                      0
+  SEXO            dictionary<values=string, indices=int32, ordered=0>          0
+  MORTE           int8                                      0
+  CAR_INT         dictionary<values=string, indices=int32, ordered=0>          0
+  ESPEC           dictionary<values=string, indices=int32, ordered=0>          0
+  DIAG_PRINC      dictionary<values=string, indices=int32, ordered=0>          0
+  RACA_COR        dictionary<values=string, indices=int32, ordered=0>          0
+  MUNIC_RES       dictionary<values=string, indices=int32, ordered=0>          0
+  MUNIC_MOV       dictionary<values=string, indices=int32, ordered=0>          0
+
+Intervalo das datas:
+  DT_INTER : 2008-01-01 a 2025-12-31
+  DT_SAIDA : 2014-08-06 a 2025-12-31
+  NASC     : 1889-10-20 a 2025-12-27
+
+==========================================================================
+Idade em anos (IDADE + COD_IDADE)
+==========================================================================
+COD_IDADE (2 = dias, 3 = meses, 4 = anos, 5 = acima de cem anos):
+  código   registros  IDADE mín  IDADE máx
+       0           6          0          0
+       2     128,851          0         30
+       3     100,247          1         11
+       4   5,527,802          1         99
+       5       2,075          0         27
+
+Idade inválida (sinalizada em IDADE_INVALIDA, registro mantido): 6
+        N_AIH  IDENT  IDADE  COD_IDADE       NASC   DT_INTER  DIAS_PERM
+4224103865454      1      0          0 1894-05-04 2024-07-11         15
+4224103865443      1      0          0 1894-05-04 2024-07-03          8
+4224105731978      1      0          0 1894-05-04 2024-06-02         31
+4224103871801      1      0          0 1894-05-04 2024-06-03          0
+4224103859602      1      0          0 1894-05-04 2024-06-20          0
+4224103859613      1      0          0 1894-05-04 2024-06-23          0
+
+IDADE_ANOS:
+count    5.758975e+06
+mean     4.359201e+01
+std      2.391572e+01
+min      0.000000e+00
+25%      2.500000e+01
+50%      4.300000e+01
+75%      6.300000e+01
+max      1.270000e+02
+  0 anos (menos de um ano)       : 229,098
+  100 anos ou mais               : 2,075
+  mais de 110 anos               : 52
+  NASC = 1899-12-30 (registros)  : 4
+
+Validação cruzada IDADE_ANOS x NASC:
+  IDENT != 5 (ref.: DT_INTER                       ) comparados  5,728,652  divergentes      0  concordância 100.00%
+  IDENT = 5  (ref.: fim do mês anterior a DT_SAIDA ) comparados     30,323  divergentes      0  concordância 100.00%
+  NASC posterior a DT_INTER (IDENT != 5): 0
+
+Validação de IDADE na unidade do código, contra NASC:
+  COD_IDADE = 2 (dias                ) comparados    128,851  divergentes      0
+  COD_IDADE = 3 (meses completos     ) comparados    100,247  divergentes      0
+  COD_IDADE = 4 (anos completos      ) comparados  5,527,802  divergentes      0
+  COD_IDADE = 5 (anos completos - 100) comparados      2,075  divergentes      0
+
+==========================================================================
+ETAPA 2 — Registros inconsistentes
+==========================================================================
+Critérios de exclusão (impedem o cálculo do alvo):
+  DT_INTER nulas        : 0
+  DT_SAIDA nulas        : 0
+  DIAS_PERM nulos       : 0
+  DIAS_PERM < 0         : 0
+  DT_SAIDA < DT_INTER   : 0
+Registros excluídos: 0 (se algum critério acima for diferente de zero, a base não é gravada)
+
+Casos preservados (NÃO são inconsistências):
+  N_AIH repetidas (parcelas de longa permanência): 4,839 N_AIH, 29,919 registros extras
+  DIAS_PERM = 0 (saída no dia da internação)     : 644,493 (11.19%)
+  IDENT = 5 com DT_SAIDA - DT_INTER > 365 dias   : 16,929 (55.83% das fatias)
+  DT_INTER anterior a 2015                       : 34,660
+  DT_INTER anterior a 2014                       : 3,818 (IDENT = 5: 3,818)
+  DT_INTER = 2008-01-01 (data-sentinela)         : 2,576
+  DIAS_PERM nas fatias IDENT = 5                 : 1 a 31
+
+==========================================================================
+CONFERÊNCIA COM OS VALORES DE REFERÊNCIA
+==========================================================================
+item                                               esperado       obtido  situação
+registros                                         5,758,981    5,758,981  OK
+competências distintas                                  132          132  OK
+N_AIH nulas                                               0            0  OK
+IDENT nulos                                               0            0  OK
+DT_INTER nulas                                            0            0  OK
+DT_SAIDA nulas                                            0            0  OK
+DIAS_PERM nulos                                           0            0  OK
+DIAS_PERM < 0                                             0            0  OK
+DT_SAIDA < DT_INTER                                       0            0  OK
+IDENT = 1                                         5,728,658    5,728,658  OK
+IDENT = 5                                            30,323       30,323  OK
+N_AIH distintas                                   5,729,062    5,729,062  OK
+N_AIH repetidas                                       4,839        4,839  OK
+registros extras (N_AIH)                             29,919       29,919  OK
+DIAS_PERM = 0                                       644,493      644,493  OK
+DT_INTER anterior a 2015                             34,660       34,660  OK
+soma de DIAS_PERM (IDENT = 5)                       858,794      858,794  OK
+IDENT != 5: DIAS_PERM != DT_SAIDA - DT_INTER              0            0  OK
+IDENT = 5: DIAS_PERM != dia de DT_SAIDA                   0            0  OK
+DIAS_PERM = 0 com DT_INTER != DT_SAIDA                    0            0  OK
+
+Base limpa gravada: pipeline/saidas/etapa1_base_limpa.parquet (5,758,981 registros, 20 colunas)

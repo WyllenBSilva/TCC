@@ -1,0 +1,310 @@
+
+==========================================================================
+CHECK 0 — Visão geral
+==========================================================================
+Registros            : 5,758,981
+Competências distintas: 132 (2015-01 ... 2025-12)
+N_AIH ausentes/ilegíveis (gravadas como 0): 0
+Colunas lidas        : N_AIH, DT_INTER, DT_SAIDA, DIAS_PERM, IDENT, MORTE, DIAG_PRINC
+N_AIH presente       : True
+SEQ_AIH5 presente    : False
+DT_INTER nulas       : 0
+DT_SAIDA nulas       : 0
+DIAS_PERM nulos      : 0
+
+Distribuição de IDENT:
+IDENT
+1    5728658
+5      30323
+
+==========================================================================
+CHECK 1 — DIAS_PERM x datas; comportamento das IDENT = 5
+==========================================================================
+DT_SAIDA < DT_INTER (todos os IDENT): 0
+
+[1A] IDENT != 5
+  Registros                          : 5,728,658
+  DIAS_PERM == DT_SAIDA - DT_INTER   : 100.00%
+  Divergentes                        : 0
+
+[1B] IDENT = 5  (registros: 30,323)
+  DIAS_PERM == dia do mês de DT_SAIDA        : 100.00%
+  DIAS_PERM == nº de dias do mês de DT_SAIDA : 86.30%
+  DT_SAIDA é último dia do mês               : 86.30%
+  DIAS_PERM > dias do mês de DT_SAIDA        : 0
+  Intervalo entre datas > 365 dias           : 55.83%
+  DIAS_PERM (IDENT=5):
+count    30323.000000
+mean        28.321538
+std          6.153777
+min          1.000000
+25%         30.000000
+50%         31.000000
+75%         31.000000
+max         31.000000
+
+  Exceções à hipótese 'DIAS_PERM == dia de DT_SAIDA': 0
+
+==========================================================================
+CHECK 2 — N_AIH repetida
+==========================================================================
+Registros                       : 5,758,981
+N_AIH distintos                 : 5,729,062
+N_AIH com mais de 1 registro    : 4,839
+Registros extras (soma de n-1)  : 29,919
+
+IDENT dos registros pertencentes a N_AIH repetidas:
+IDENT
+5    30276
+1     4482
+
+Tipos de grupo (N_AIH repetida):
+  tipo                            grupos   registros    extras
+  todos IDENT=5                      357       4,938     4,581
+  nenhum IDENT=5                       0           0         0
+  misto (5 e outros)               4,482      29,820    25,338
+
+Registros repetidos na chave ['N_AIH', 'DT_INTER', 'DT_SAIDA', 'DIAS_PERM', 'IDENT']: 0
+
+N_AIH com 2+ registros no MESMO mês de DT_SAIDA (risco de dupla contagem):
+  IDENT=5  :        0 registros em       0 N_AIH
+  IDENT!=5 :        0 registros em       0 N_AIH
+
+Cinco N_AIH mais repetidas:
+  N_AIH 4215102175944: 126 reg | meses de saída distintos: 126 | saída 2015-06-30 a 2025-12-31 | IDENT [1, 5] | soma DIAS_PERM: 3,833 | DIAS_PERM==dia(DT_SAIDA): 99.21%
+  N_AIH 4216100877659: 118 reg | meses de saída distintos: 118 | saída 2016-02-29 a 2025-12-31 | IDENT [1, 5] | soma DIAS_PERM: 3,594 | DIAS_PERM==dia(DT_SAIDA): 99.15%
+  N_AIH 4216100877681: 118 reg | meses de saída distintos: 118 | saída 2016-02-29 a 2025-12-31 | IDENT [1, 5] | soma DIAS_PERM: 3,594 | DIAS_PERM==dia(DT_SAIDA): 99.15%
+  N_AIH 4216100928040: 117 reg | meses de saída distintos: 117 | saída 2016-03-31 a 2025-12-31 | IDENT [1, 5] | soma DIAS_PERM: 3,568 | DIAS_PERM==dia(DT_SAIDA): 99.15%
+  N_AIH 4216102195063: 114 reg | meses de saída distintos: 114 | saída 2016-06-30 a 2025-12-31 | IDENT [1, 5] | soma DIAS_PERM: 3,480 | DIAS_PERM==dia(DT_SAIDA): 99.12%
+
+Amostra de registros repetidos com IDENT != 5 (total: 4,482):
+        N_AIH  IDENT   DT_INTER   DT_SAIDA  DIAS_PERM
+4214103443484      1 2014-08-24 2014-09-30       37.0
+4214104042654      1 2014-12-29 2015-01-31       33.0
+4214104042863      1 2014-12-29 2015-01-31       33.0
+4214104042940      1 2014-12-30 2015-01-31       32.0
+4214104086632      1 2014-10-14 2014-10-31       17.0
+4214104087325      1 2014-10-15 2014-10-31       16.0
+4214104096026      1 2014-10-17 2014-10-31       14.0
+4214104096037      1 2014-10-20 2014-10-31       11.0
+4214104265096      1 2014-10-24 2014-11-30       37.0
+4214104287701      1 2014-11-03 2014-11-30       27.0
+4214104456925      1 2014-10-31 2014-11-30       30.0
+4214104466231      1 2014-11-05 2014-11-30       25.0
+4214104472589      1 2014-11-10 2014-11-30       20.0
+4214104476813      1 2014-11-11 2014-11-30       19.0
+4214104484690      1 2014-11-14 2014-11-30       16.0
+4214104489012      1 2014-11-19 2014-12-31       42.0
+4214104489023      1 2014-11-21 2014-12-31       40.0
+4214104493962      1 2014-11-21 2014-12-31       40.0
+4214104494754      1 2014-11-22 2014-12-31       39.0
+4214104650888      1 2014-11-23 2014-12-31       38.0
+
+==========================================================================
+CHECK 3 — Defasagem entre mês da saída e competência (IDENT != 5)
+==========================================================================
+Base da distribuição: saídas em 2024 (ano completo, sem truncamento à direita) — 649,741 registros
+  Competência ANTERIOR ao mês da saída (lag < 0): 0.00%
+  Percentual acumulado de registros apresentados com defasagem <= k meses:
+    k =  0: 56.64%
+    k =  1: 82.69%
+    k =  2: 93.94%
+    k =  3: 99.55%
+    k =  4: 99.90%
+    k =  6: 100.00%
+    k = 12: 100.00%
+
+Saídas (IDENT != 5) por mês de DT_SAIDA — últimos 15 meses da janela e razão vs. mesmo mês do ano anterior:
+  2024-10:    58,924   (ano anterior:    48,397   razão: 1.22)
+  2024-11:    53,698   (ano anterior:    47,761   razão: 1.12)
+  2024-12:    50,494   (ano anterior:    46,941   razão: 1.08)
+  2025-01:    51,594   (ano anterior:    46,489   razão: 1.11)
+  2025-02:    52,878   (ano anterior:    49,376   razão: 1.07)
+  2025-03:    56,668   (ano anterior:    54,392   razão: 1.04)
+  2025-04:    58,163   (ano anterior:    56,506   razão: 1.03)
+  2025-05:    61,539   (ano anterior:    57,488   razão: 1.07)
+  2025-06:    57,431   (ano anterior:    54,512   razão: 1.05)
+  2025-07:    61,562   (ano anterior:    55,650   razão: 1.11)
+  2025-08:    59,227   (ano anterior:    57,065   razão: 1.04)
+  2025-09:    59,064   (ano anterior:    55,147   razão: 1.07)
+  2025-10:    58,962   (ano anterior:    58,924   razão: 1.00)
+  2025-11:    47,478   (ano anterior:    53,698   razão: 0.88)
+  2025-12:    29,205   (ano anterior:    50,494   razão: 0.58)
+
+==========================================================================
+CHECK 4 — DIAS_PERM = 0
+==========================================================================
+Registros com DIAS_PERM = 0: 644,493 (11.19%)
+
+Por IDENT:
+IDENT
+1    644493
+
+DT_INTER == DT_SAIDA (todos os registros)        : 644,493
+  entre os zeros, com DT_INTER == DT_SAIDA        : 100.00%
+  entre as saídas no mesmo dia, com DIAS_PERM = 0 : 100.00%
+  zeros com datas DIFERENTES (inconsistentes)     : 0
+
+Proporção de zeros por ano de DT_INTER:
+       zeros   total proporção
+ANO                           
+2008       0    2793     0.00%
+2009       0     179     0.00%
+2010       0      55     0.00%
+2011       0     194     0.00%
+2012       0     254     0.00%
+2013       0     343     0.00%
+2014    2003   30842     6.49%
+2015   36722  452891     8.11%
+2016   38923  478993     8.13%
+2017   40518  473438     8.56%
+2018   43349  489718     8.85%
+2019   48319  509729     9.48%
+2020   40201  432927     9.29%
+2021   46337  472222     9.81%
+2022   64328  533729    12.05%
+2023   78822  580020    13.59%
+2024   97476  651207    14.97%
+2025  107495  649447    16.55%
+
+DIAG_PRINC (3 primeiros caracteres) mais comuns entre os zeros:
+DIAG_PRINC
+Z30    35085
+C44    32027
+J35    24171
+L98    23695
+N47    19608
+G56    16309
+S52    14638
+Z47    14130
+K40    11617
+S62    10011
+
+Óbito (MORTE=1) entre os zeros: 3.15%
+
+==========================================================================
+CHECK 5 — Registros que cruzam os limites da janela 2015-2025
+==========================================================================
+DT_INTER antes de 2015-01-01: 34,660
+IDENT
+1    29254
+5     5406
+  menor DT_INTER: 2008-01-01
+DT_SAIDA depois de 2025-12-31: 0
+
+Registros com DT_INTER anterior a 2014 (suspeita de data-sentinela): 3,818
+  Por ano de DT_INTER e IDENT:
+IDENT        5
+DT_INTER      
+2008      2793
+2009       179
+2010        55
+2011       194
+2012       254
+2013       343
+
+  Datas de internação exatas mais frequentes:
+    2008-01-01: 2,576
+    2013-05-01: 41
+    2008-01-16: 36
+    2013-01-29: 36
+    2011-08-01: 21
+    2012-08-01: 20
+    2013-04-17: 20
+    2013-11-11: 20
+    2013-10-01: 20
+    2012-10-26: 20
+
+  Dia 1º do mês entre essas internações: 71.84%
+  Permanência implícita (DT_SAIDA - DT_INTER), em dias:
+count    3818.000000
+mean     2432.320849
+std       718.087325
+min       446.000000
+25%      2322.250000
+50%      2707.000000
+75%      2921.000000
+max      3103.000000
+
+  Amostra:
+ IDENT   DT_INTER   DT_SAIDA  DIAS_PERM
+     5 2008-01-01 2015-01-31       31.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+     5 2008-01-01 2015-11-30       30.0
+
+==========================================================================
+CHECK 6 — Série mensal: Abordagem A x B, zeros e IDENT = 5
+==========================================================================
+Teste de identidade (IDENT != 5, registros inteiramente dentro da janela):
+  registros                 : 5,699,404
+  soma dos dias pelas datas : 25,248,838
+  soma de DIAS_PERM         : 25,248,838
+  diferença                 : 0
+  registros com DIAS_PERM != diferença de datas: 0
+
+Registros IDENT = 5 (fatias mensais):
+  total                                        : 30,323
+  com mês de DT_INTER != mês de DT_SAIDA       : 30,323 (100.00%)
+  cujo mês de DT_INTER cai FORA da janela      : 5,406
+  (ou seja: na Abordagem A esses pacientes-dia iriam para o mês da
+   internação original, não para o mês em que a ocupação ocorreu)
+
+Totais por ano (pacientes-dia):
+      A_todos_por_DT_INTER  B_total_zeros_0  B_total_zeros_1  B_ident5_por_DT_SAIDA  B0 - A (%)  zeros=1 vs zeros=0 (%)
+ano                                                                                                                    
+2015               2170755          2264395          2301117                 140605        4.31                    1.62
+2016               2532958          2277814          2316737                 115107      -10.07                    1.71
+2017               2209088          2269705          2310223                  95610        2.74                    1.79
+2018               2260607          2295934          2339283                  78161        1.56                    1.89
+2019               2251133          2291293          2339612                  70770        1.78                    2.11
+2020               2013815          2041059          2081260                  67720        1.35                    1.97
+2021               2383209          2421003          2467340                  61103        1.59                    1.91
+2022               2405124          2430698          2495026                  60017        1.06                    2.65
+2023               2511307          2533088          2611910                  52887        0.87                    3.11
+2024               2681720          2708489          2805965                  57817        1.00                    3.60
+2025               2527526          2605606          2713101                  58335        3.09                    4.13
+
+Primeiros 15 meses da série (efeito de truncamento à esquerda):
+         A_todos_por_DT_INTER  B_total_zeros_0  B_ident5_por_DT_SAIDA
+ano_mes                                                              
+2015-01                179552           177864                  13280
+2015-02                163050           167761                  11663
+2015-03                188128           197191                  13044
+2015-04                180650           186481                  12539
+2015-05                190021           201590                  12917
+2015-06                194058           194711                  12087
+2015-07                191589           201743                  12083
+2015-08                184002           196319                  10760
+2015-09                179092           188056                  10618
+2015-10                184582           191489                  10582
+2015-11                178175           187727                  10445
+2015-12                157856           173463                  10587
+2016-01                197391           183284                  10593
+2016-02                177989           179622                   9770
+2016-03                204066           196006                  10246
+
+Últimos 15 meses da série (efeito de censura à direita):
+         B_total_zeros_0  B_ident5_por_DT_SAIDA  n_saidas_sem_ident5  n_registros_ident5
+ano_mes                                                                                 
+2024-10           235934                   4888                58924                 176
+2024-11           217805                   4912                53698                 176
+2024-12           208013                   4899                50494                 179
+2025-01           217038                   5025                51594                 176
+2025-02           209025                   4493                52878                 173
+2025-03           236112                   5130                56668                 178
+2025-04           235234                   4828                58163                 180
+2025-05           252773                   5121                61539                 182
+2025-06           244602                   4844                57431                 188
+2025-07           250451                   4934                61562                 181
+2025-08           243227                   4799                59227                 172
+2025-09           234602                   4866                59064                 180
+2025-10           222934                   5108                58962                 181
+2025-11           173113                   4955                47478                 181
+2025-12            86495                   4232                29205                 156

@@ -1,0 +1,49 @@
+Recorte geográfico da base tratada (etapa1_base_limpa.parquet)
+Registros: 5.758.981; soma de DIAS_PERM: 26.304.466
+
+UF de internação (MUNIC_MOV)
+  SC   registros  5.758.981  dias  26.304.466
+
+UF de residência (MUNIC_RES)
+  SC   registros  5.711.521 ( 99.18%)  dias  26.097.466 ( 99.21%)
+  PR   registros     28.686 (  0.50%)  dias     107.917 (  0.41%)
+  RS   registros     11.728 (  0.20%)  dias      59.481 (  0.23%)
+  SP   registros      2.625 (  0.05%)  dias      14.697 (  0.06%)
+  MG   registros        555 (  0.01%)  dias       3.000 (  0.01%)
+  MT   registros        465 (  0.01%)  dias       2.893 (  0.01%)
+  RJ   registros        415 (  0.01%)  dias       2.537 (  0.01%)
+  MS   registros        400 (  0.01%)  dias       2.240 (  0.01%)
+  PA   registros        374 (  0.01%)  dias       2.237 (  0.01%)
+  BA   registros        360 (  0.01%)  dias       1.883 (  0.01%)
+  PE   registros        198 (  0.00%)  dias       1.056 (  0.00%)
+  GO   registros        194 (  0.00%)  dias         908 (  0.00%)
+  MA   registros        165 (  0.00%)  dias         812 (  0.00%)
+  PB   registros        144 (  0.00%)  dias         680 (  0.00%)
+  AM   registros        132 (  0.00%)  dias         760 (  0.00%)
+  RO   registros        127 (  0.00%)  dias         969 (  0.00%)
+  RN   registros        126 (  0.00%)  dias         422 (  0.00%)
+  AL   registros        101 (  0.00%)  dias         508 (  0.00%)
+  RR   registros         99 (  0.00%)  dias         525 (  0.00%)
+  ES   registros         92 (  0.00%)  dias         693 (  0.00%)
+  CE   registros         87 (  0.00%)  dias         371 (  0.00%)
+  SE   registros         79 (  0.00%)  dias         520 (  0.00%)
+  DF   registros         76 (  0.00%)  dias         475 (  0.00%)
+  AC   registros         69 (  0.00%)  dias         537 (  0.00%)
+  PI   registros         62 (  0.00%)  dias         333 (  0.00%)
+  TO   registros         56 (  0.00%)  dias         342 (  0.00%)
+  AP   registros         45 (  0.00%)  dias         204 (  0.00%)
+
+Residentes fora de SC: 47.460 registros (0.82%) e 207.000 dias de permanência (0.79%)
+
+Participação dos residentes fora de SC por ano de saída (% dos dias de permanência)
+  2015   0.70%
+  2016   0.74%
+  2017   0.72%
+  2018   0.81%
+  2019   0.77%
+  2020   0.77%
+  2021   0.85%
+  2022   0.77%
+  2023   0.75%
+  2024   0.83%
+  2025   0.94%

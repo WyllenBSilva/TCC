@@ -1,0 +1,74 @@
+
+==========================================================================
+1. O teste não participa das escolhas
+==========================================================================
+  último índice de validação: 91 (treino tem 92 meses, índices 0 a 91)
+  último mês de validação: 2023-08; primeiro mês de teste: 2023-09
+
+==========================================================================
+2. lag_1 é o valor observado do mês anterior
+==========================================================================
+  meses com lag_1 = y observado do mês anterior: 116 de 116
+  primeiro mês de teste 2023-09: lag_1 = 221,984 = y de 2023-08 (221,984)
+  o lag_1 de cada mês de teste é o valor observado, nunca a previsão do mês
+  anterior: o teste são 24 previsões independentes de um mês à frente
+
+==========================================================================
+3. Padronização do MLP ajustada só nos meses de ajuste
+==========================================================================
+  mlp nivel, dobra 1: média de y usada na padronização 190,591.3 = média dos 44 meses de ajuste (190,591.3); média dos 92 meses: 192,874.1
+  mlp diferenca, dobra 1: média de y usada na padronização 441.3 = média dos 44 meses de ajuste (441.3); média dos 92 meses: 526.4
+
+==========================================================================
+4. Métricas em diferença calculadas sobre y = lag_1 + previsão
+==========================================================================
+  random_forest diferença: MAE recalculado em y 5,670.9; relatório 5,670.9; MAE em y_diff 5,670.9
+  mlp diferença: MAE recalculado em y 5,712.0; relatório 5,712.0; MAE em y_diff 5,712.0
+
+==========================================================================
+5. Escala dos valores SHAP
+==========================================================================
+  random_forest_nivel      valor-base    192,953  maior |base + soma - previsão| 6.8e-03  escala: pacientes-dia
+  random_forest_diferenca  valor-base        504  maior |base + soma - previsão| 2.5e-05  escala: variação mensal (pacientes-dia)
+  mlp_nivel                valor-base    192,865  maior |base + soma - previsão| 1.7e-10  escala: pacientes-dia
+  mlp_diferenca            valor-base        487  maior |base + soma - previsão| 4.1e-11  escala: variação mensal (pacientes-dia)
+
+==========================================================================
+A. Validação da previsão média de 10 sementes (mesmas dobras e hiperparâmetros)
+==========================================================================
+  configuração                individual  média de 10   por dobra (média de 10)
+  random_forest_nivel             13,160       13,157   19,149 / 17,984 / 7,435 / 8,060
+  random_forest_diferenca          6,367        6,366   9,191 / 7,549 / 3,724 / 5,001
+  mlp_nivel                       12,528       11,444   17,958 / 11,599 / 10,865 / 5,354
+  mlp_diferenca                    6,379        6,362   9,152 / 7,518 / 3,751 / 5,026
+  individual: média, entre 10 sementes e 4 dobras, do MAE de cada modelo
+  (a Etapa 5 usou 3 sementes, por isso o valor difere um pouco do relatório)
+
+==========================================================================
+B. Alvo sem a reconstrução das lacunas (mesmos hiperparâmetros)
+==========================================================================
+  diferença no alvo (com - sem): 7,947 pacientes-dia em 57 dos 116 meses; no teste: 1,754
+  configuração                         MAE com   MAE sem  diferença
+  ingenua_mes_anterior                   8,464     8,530        +67
+  ingenua_mesmo_mes_ano_anterior        10,884    10,911        +26
+  random_forest_nivel                   14,534    14,612        +78
+  random_forest_diferenca                5,671     5,708        +37
+  mlp_nivel                              6,546     6,786       +240
+  mlp_diferenca                          5,712     5,752        +40
+
+==========================================================================
+CONFERÊNCIAS
+==========================================================================
+  dobras de validação dentro do treino                                 OK
+  hiperparâmetros = menor MAE de validação (8 configurações)           OK
+  conjunto de atributos = menor MAE de validação (4 pares)             OK
+  lag_1 = y observado do mês anterior (116 meses)                      OK
+  baseline mês anterior usa o mesmo lag_1                              OK
+  mlp nivel: média e escala de X e y = meses de ajuste (4 dobras)      OK
+  mlp diferenca: média e escala de X e y = meses de ajuste (4 dobras)  OK
+  random_forest diferença: MAE do relatório = MAE sobre y reconstruído OK
+  mlp diferença: MAE do relatório = MAE sobre y reconstruído           OK
+  random_forest_nivel: base + soma dos SHAP = previsão em pacientes-dia OK
+  random_forest_diferenca: base + soma dos SHAP = previsão em variação mensal (pacientes-dia) OK
+  mlp_nivel: base + soma dos SHAP = previsão em pacientes-dia          OK
+  mlp_diferenca: base + soma dos SHAP = previsão em variação mensal (pacientes-dia) OK

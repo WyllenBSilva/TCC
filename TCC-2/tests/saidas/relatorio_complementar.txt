@@ -1,0 +1,56 @@
+Fatias IDENT = 5 carregadas: 30,323
+
+==========================================================================
+CHECK 7 — Fatias IDENT = 5 por MÊS DA INTERNAÇÃO (origem do pico da Abordagem A)
+==========================================================================
+Dez meses de internação que concentram mais pacientes-dia de longa permanência.
+Na Abordagem A, TODO esse volume é lançado no mês da internação:
+
+  mês DT_INTER    pacientes   fatias   pacientes-dia  dias/paciente
+  2016-07               204    8,736         263,312          1,291
+  2008-01               159    2,630          79,512            500
+  2016-06                82    1,163          34,328            419
+  2016-01                49      645          18,986            387
+  2016-03                77      526          15,079            196
+  2015-01                79      340           9,120            115
+  2016-05                36      304           8,678            241
+  2022-12                39      301           8,662            222
+  2014-12               103      329           8,567             83
+  2019-12                26      289           8,502            327
+
+Total de pacientes-dia em fatias IDENT = 5: 858,794
+Os dez meses acima concentram 454,746 (53.0%) desse total.
+
+Julho/2016 em detalhe: 204 pacientes de longa permanência internados nesse mês,
+  somando 263,312 pacientes-dia distribuídos em 8,736 fatias mensais
+  (1,291 dias por paciente, ou 3.5 anos em média).
+  Meses de ocupação cobertos: 2016-08 a 2025-12.
+
+==========================================================================
+CHECK 8 — Lacunas nas cadeias: paciente internado cuja fatia não foi apresentada
+==========================================================================
+Cadeias com duas ou mais fatias: 2,827
+Lacunas internas (mês entre a primeira e a última fatia, sem registro): 298
+
+Meses de ocupação afetados: 66
+
+Dez meses com maior subnotificação de pacientes-dia de longa permanência:
+         pacientes  pac_dia_faltantes  fatias  pac_dia  pac_dia_corrigido  subnotificacao_%
+ano_mes                                                                                    
+2021-11         96               2880      93     2450               5330              54.0
+2024-06         18                540     160     4330               4870              11.1
+2015-08          9                279     365    10760              11039               2.5
+2022-08          8                248     174     4955               5203               4.8
+2023-09          8                240     153     4180               4420               5.4
+2015-10          7                217     362    10582              10799               2.0
+2023-03          7                217     158     4515               4732               4.6
+2016-05          6                186     368    10762              10948               1.7
+2023-01          6                186     155     4499               4685               4.0
+2021-09          6                180     179     5156               5336               3.4
+
+2021-11: 96 pacientes sem fatia apresentada, 2,880 pacientes-dia
+  observado 2,450 -> reconstruído 5,330 (54.0% faltante)
+
+Total reconstruível: 9,018 pacientes-dia (1.05% do volume de longa permanência)
+Cada lacuna é um paciente com fatia antes E depois do mês ausente, ou seja,
+comprovadamente internado — o dia-leito existiu e não foi faturado naquela competência.

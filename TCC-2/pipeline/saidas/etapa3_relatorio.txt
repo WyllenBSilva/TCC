@@ -1,0 +1,113 @@
+
+==========================================================================
+ETAPA 3 — Variável-alvo
+==========================================================================
+Entrada: pipeline/saidas/etapa1_base_limpa.parquet
+
+==========================================================================
+Lacunas de longa permanência
+==========================================================================
+Buracos entre fatias consecutivas : 256 (de um mês: 235)
+Lacunas (meses ausentes)          : 298
+Pacientes-dia reconstruídos       : 9,018
+
+Meses com mais lacunas:
+  2021-11:   96 lacunas,  2,880 pacientes-dia
+  2024-06:   18 lacunas,    540 pacientes-dia
+  2015-08:    9 lacunas,    279 pacientes-dia
+  2023-09:    8 lacunas,    240 pacientes-dia
+  2022-08:    8 lacunas,    248 pacientes-dia
+
+Continuidade entre as fatias vizinhas de cada buraco:
+  fatia anterior termina no último dia do mês: 255 de 256
+  mesmo DT_INTER registrado                  : 256 de 256
+  mesmo DIAG_PRINC                           : 256 de 256
+
+Limitações conhecidas (regra mantida; registradas para o texto):
+  Lacuna após fatia que não termina no fim do mês (possível saída real): 2 lacunas, 61 dias
+  Lacuna com fatia de outra AIH de mesmo NASC, SEXO e MUNIC_RES (possível troca de AIH): 3 lacunas, 92 dias
+  Mês ausente entre IDENT = 1 e a primeira fatia (fora da regra, não reconstruído): 53 cadeias, 57 meses, 1,720 dias
+
+==========================================================================
+Auditoria
+==========================================================================
+Soma de DIAS_PERM na base                  : 26,304,466
+Alocado em todos os meses, sem reconstrução: 26,304,466
+  antes de 01/2015 (fora das séries)       : 165,382
+  de 01/2015 a 12/2025                     : 26,139,084
+
+Decomposição de 01/2015 a 12/2025, sem reconstrução:
+  IDENT != 5 inteiro na janela até 12/2025     :   25,248,838
+  IDENT = 5                                    :      858,132
+  parcelas de borda                            :       32,114
+  soma                                         :   26,139,084
+
+Método independente (sobreposição de intervalos), 132 meses: 0 meses divergentes
+
+==========================================================================
+Série mensal
+==========================================================================
+Série de modelagem: 2015-01 a 2025-08, 128 meses
+Efeito das saídas no mesmo dia (zeros = 1 - zeros = 0): 607,986
+
+Efeito da reconstrução em torno de 11/2021:
+  mês       sem reconstrução  com reconstrução  acréscimo
+  2021-09            193,126           193,306      0.09%
+  2021-10            199,415           199,415      0.00%
+  2021-11            191,655           194,535      1.50%
+  2021-12            186,199           186,199      0.00%
+  2022-01            192,811           192,811      0.00%
+  meses com lacuna: 66; maiores acréscimos: 1.50% e 0.23%
+
+Totais da série completa (01/2015 a 12/2025):
+  zeros = 0, com reconstrução: 26,148,102
+  zeros = 0, sem reconstrução: 26,139,084
+  zeros = 1, com reconstrução: 26,790,592
+
+Meses finais da série completa (os posteriores a 08/2025 ficam fora da modelagem):
+  2025-07:   250,482
+  2025-08:   243,258
+  2025-09:   234,602
+  2025-10:   222,934
+  2025-11:   173,113
+  2025-12:    86,495
+
+Participação na série de modelagem:
+  sexo masculino : 51.10%
+  60 anos ou mais: 37.38%
+
+==========================================================================
+CONFERÊNCIA COM OS VALORES DE REFERÊNCIA
+==========================================================================
+item                                                        esperado      obtido  situação
+registros                                                  5,758,981   5,758,981  OK
+fatias IDENT = 5                                              30,323      30,323  OK
+soma de DIAS_PERM                                         26,304,466  26,304,466  OK
+soma de DIAS_PERM (IDENT = 5)                                858,794     858,794  OK
+auditoria: IDENT != 5 com parcelas != DIAS_PERM                    0           0  OK
+auditoria: alocado - DIAS_PERM da base                             0           0  OK
+auditoria: meses divergentes no método independente                0           0  OK
+fatias com saída antes de 01/2015 (dias)                         662         662  OK
+decomposição: IDENT != 5 inteiro na janela até 12/2025    25,248,838  25,248,838  OK
+decomposição: IDENT = 5                                      858,132     858,132  OK
+decomposição: parcelas de borda                               32,114      32,114  OK
+total 01/2015-12/2025, sem reconstrução                   26,139,084  26,139,084  OK
+buracos entre fatias                                             256         256  OK
+buracos de um mês                                                235         235  OK
+lacunas                                                          298         298  OK
+pacientes-dia das lacunas                                      9,018       9,018  OK
+meses na série completa                                          132         132  OK
+meses na série de modelagem                                      128         128  OK
+total do alvo (zeros = 0, com reconstrução)               25,430,958  25,430,958  OK
+total do alvo (zeros = 0, sem reconstrução)               25,421,940  25,421,940  OK
+total do alvo (zeros = 1, com reconstrução)               26,038,944  26,038,944  OK
+mês 2015-01                                                  177,864     177,864  OK
+mês 2020-04                                                  137,807     137,807  OK
+mês 2021-11                                                  194,535     194,535  OK
+mês 2025-08                                                  243,258     243,258  OK
+pacientes-dia com idade inválida                                  54          54  OK
+auditoria: decomposição - total sem reconstrução                   0           0  OK
+auditoria: meses com grupo maior que o total                       0           0  OK
+auditoria: meses não consecutivos ou com nulos                     0           0  OK
+
+Séries gravadas: pipeline/saidas/etapa3_serie_mensal.parquet e pipeline/saidas/etapa3_serie_completa.parquet
